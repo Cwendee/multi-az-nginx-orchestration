@@ -1,0 +1,34 @@
+---
+- name: Prepare Infrastructure for Load Balancing
+  hosts: all
+  become: yes
+  tasks:
+    - name: 1. Update and Install Nginx
+      apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+
+    - name: 2. Start Nginx Service
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: 3. Create Unique Page for Web Server 01
+      copy:
+        content: "<h1>Welcome to App Server 01</h1><p>Managed by Ansible</p>"
+        dest: /var/www/html/index.html
+      when: inventory_hostname == 'web01'
+
+    - name: 4. Create Unique Page for Web Server 02
+      copy:
+        content: "<h1>Welcome to App Server 02</h1><p>Managed by Ansible</p>"
+        dest: /var/www/html/index.html
+      when: inventory_hostname == 'web02'
+
+    - name: 5. Create Status Page for Load Balancer
+      copy:
+        content: "<h1>This is the Nginx Load Balancer</h1>"
+        dest: /var/www/html/index.html
+      when: inventory_hostname == 'lb01'
