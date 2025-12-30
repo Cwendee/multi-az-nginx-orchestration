@@ -8,8 +8,6 @@ A high-availability web architecture deployed on AWS using Ansible for automated
 - **Web Tier:** 2 Ubuntu EC2 instances serving unique content to verify load distribution.
 - **Automation:** Ansible playbooks for zero-touch deployment and configuration.
 
-
-
 ## 🚀 Key Features
 - **High Availability:** Distributed nodes across multiple AZs to prevent single points of failure.
 - **Security:** Layered Security Groups (LB accepts public HTTP/SSH; App Nodes are restricted to internal traffic).
@@ -28,15 +26,15 @@ The following screenshots demonstrate the Load Balancer in action. By accessing 
 
 | Request 1 (Server 01) | Request 2 (Server 02) |
 |---|---|
-| ![App Server 01](images/server-01.png) | ![App Server 02](images/server-02.png) |
+| ![App Server 01](images/app-server-01.png) | ![App Server 02](images/app-server-02.png) |
 | *Served from us-east-1a* | *Served from us-east-1b* |
 
-### 🌐 Load Balancer Verification
+### 🌐 Web Application Verification
 The screenshots below demonstrate the Nginx Load Balancer successfully distributing traffic across both Availability Zones. Note that the IP address in the browser remains constant while the backend server toggles.
 
 | App Server 01 (AZ: us-east-1a) | App Server 02 (AZ: us-east-1b) |
 |---|---|
-| ![Server 01](server-01.png) | ![Server 02](server-02.png) |
+| ![Server 01](images/app-server-01.png) | ![Server 02](images/app-server-02.png) |
 
 ---
 
