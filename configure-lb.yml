@@ -1,0 +1,27 @@
+---
+- name: Configure Nginx as Load Balancer
+  hosts: loadbalancer
+  become: yes
+  tasks:
+    - name: 1. Remove the static index.html to prevent it from blocking the proxy
+      file:
+        path: /var/www/html/index.html
+        state: absent
+
+    - name: 2. Copy LB Configuration to sites-available
+      copy:
+        src: lb-nginx.conf
+        dest: /etc/nginx/sites-available/default
+        force: yes
+
+    - name: 3. Ensure the config is linked (Standard Nginx practice)
+      file:
+        src: /etc/nginx/sites-available/default
+        dest: /etc/nginx/sites-enabled/default
+        state: link
+      ignore_errors: yes
+
+    - name: 4. Restart Nginx to apply changes
+      service:
+        name: nginx
+        state: restarted

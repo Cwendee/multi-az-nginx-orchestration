@@ -15,20 +15,38 @@
         state: started
         enabled: yes
 
-    - name: 3. Create Unique Page for Web Server 01
+    - name: 3. Create Visual Dashboard for Web Servers
       copy:
-        content: "<h1>Welcome to App Server 01</h1><p>Managed by Ansible</p>"
         dest: /var/www/html/index.html
-      when: inventory_hostname == 'web01'
+        content: |
+          <!DOCTYPE html>
+          <html>
+          <head>
+              <title>Cloud Architecture Lab</title>
+              <style>
+                  body { font-family: sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+                  .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: center; border-top: 10px solid {{ 'blue' if inventory_hostname == 'web01' else 'green' }}; }
+                  h1 { color: #333; }
+                  .status { color: #27ae60; font-weight: bold; }
+                  .metadata { margin-top: 1rem; color: #666; font-size: 0.9rem; }
+              </style>
+          </head>
+          <body>
+              <div class="card">
+                  <h1>{{ 'App Server 01' if inventory_hostname == 'web01' else 'App Server 02' }}</h1>
+                  <p class="status">● Active & Load Balanced</p>
+                  <div class="metadata">
+                      <p><strong>Architecture:</strong> Multi-AZ High Availability</p>
+                      <p><strong>Provisioned by:</strong> Ansible</p>
+                      <p><strong>Target AZ:</strong> {{ 'us-east-1a' if inventory_hostname == 'web01' else 'us-east-1b' }}</p>
+                  </div>
+              </div>
+          </body>
+          </html>
+      when: inventory_hostname == 'web01' or inventory_hostname == 'web02'
 
-    - name: 4. Create Unique Page for Web Server 02
+    - name: 4. Create Identification Page for Load Balancer
       copy:
-        content: "<h1>Welcome to App Server 02</h1><p>Managed by Ansible</p>"
-        dest: /var/www/html/index.html
-      when: inventory_hostname == 'web02'
-
-    - name: 5. Create Status Page for Load Balancer
-      copy:
-        content: "<h1>This is the Nginx Load Balancer</h1>"
+        content: "<h1>This is the Nginx Load Balancer Node</h1>"
         dest: /var/www/html/index.html
       when: inventory_hostname == 'lb01'
