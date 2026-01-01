@@ -53,3 +53,8 @@ The individual web pages below are displayed to illustrate High Availability (HA
 ## 📈 Future Game Plan
 - **Project 3:** Implement real-time monitoring using **Prometheus and Grafana**.
 - **Project 4:** Refactor the entire infrastructure using **Terraform**.
+
+## 🏗️ System Architecture
+This project demonstrates a high-availability Nginx orchestration across multiple AWS Availability Zones.
+
+![Multi-AZ Architecture](images/load-balancer-architecture.png)
